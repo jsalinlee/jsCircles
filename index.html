@@ -3,15 +3,22 @@
 	<title>Javascript Box - OOP demo</title>
 </head>
 <body>
-
 	<svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
-
+	<style>
+		*{
+			margin: 0;
+		}
+		svg{
+			height: 100%;
+			width: 100%;
+		}
+	</style>
 	<script>
 	function Circle(cx, cy, html_id)
 	{
 		var html_id = html_id;
 		this.info = { cx: cx,  cy: cy };
-		
+		this.r = 10;
 		//private function that generates a random number
 		var randomNumberBetween = function(min, max){
 			return Math.random()*(max-min) + min;
@@ -24,15 +31,14 @@
 				y: randomNumberBetween(-3,3)
 			}
 
-			//create a circle 
-			var circle = makeSVG('circle', 
+			//create a circle
+			var circle = makeSVG('circle',
 				{ 	cx: this.info.cx,
 				  	cy: this.info.cy,
-				  	r:  10,
+				  	r:  this.r,
 				  	id: html_id,
 				  	style: "fill: black"
 				});
-
 			document.getElementById('svg').appendChild(circle);
 		}
 
@@ -40,11 +46,11 @@
 			var el = document.getElementById(html_id);
 
 			//see if the circle is going outside the browser. if it is, reverse the velocity
-			if( this.info.cx > document.body.clientWidth || this.info.cx < 0)
+			if( this.info.cx > svg.clientWidth - this.r || this.info.cx < this.r)
 			{
 				this.info.velocity.x = this.info.velocity.x * -1;
 			}
-			if( this.info.cy > document.body.clientHeight || this.info.cy < 0)
+			if( this.info.cy > svg.clientHeight - this.r || this.info.cy < this.r)
 			{
 				this.info.velocity.y = this.info.velocity.y * -1;
 			}
@@ -98,7 +104,7 @@
 	document.onclick = function(e) {
 		playground.createNewCircle(e.x,e.y);
 	}
-	
+
 	</script>
 
 </body>
